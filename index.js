@@ -2,6 +2,10 @@
 const container = document.querySelector('.container');
 const createNewGridBtn = document.querySelector('.grid-create');
 const resetGridBtn = document.querySelector('.grid-reset');
+const gridColorModeBtn = document.querySelector('.grid-color-mode');
+
+let gridColorMode = '';
+
 
 
 //Event Listeners
@@ -18,6 +22,24 @@ container.addEventListener('mouseover', function(e){
         colorChange(cell);
     }
 });
+
+gridColorModeBtn.addEventListener('click', function(e){
+    // console.log(e.target);
+    
+    if (e.target.dataset.colorType == 'single') {
+        e.target.innerHTML = 'random';
+        e.target.dataset.colorType = 'random'; 
+    } else if (e.target.dataset.colorType == 'random') {
+        e.target.innerHTML = 'progressive darkening';
+        e.target.dataset.colorType = 'progressive-darkening'
+    } else if (e.target.dataset.colorType == 'progressive-darkening') {
+        e.target.innerHTML = 'single color';
+        e.target.dataset.colorType = 'single';
+    }
+    
+    let gridColorMode = e.target.dataset.colorType;
+    // console.log(gridColorMode)
+})
 
 //Functions
 function colorChange(cell) {
