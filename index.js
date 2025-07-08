@@ -1,6 +1,22 @@
 const container = document.querySelector('.container');
+const createNewGridBtn = document.querySelector('.grid-create');
+const resetGridBtn = document.querySelector('.grid-reset');
+
+createNewGridBtn.addEventListener('click', createNewGrid);
+resetGridBtn.addEventListener('click', ()=> {
+    createGrid();
+})
+
+function createNewGrid() {
+    const newGridSize = Number(prompt("Choose grid size between 1-100"));
+    createGrid(newGridSize);
+}
+
+
 
 function createGrid(size = 16) {
+
+    container.innerHTML = '';
 
     const cellSize = 100 / size; 
 
