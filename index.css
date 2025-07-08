@@ -15,8 +15,7 @@
 
     max-width: 1200px;
     margin: 0 auto;
-    /* width: 100%; */
-    padding: 40px 20px;
+    padding: 20px 10px;
 
     gap: 20px;
 }
@@ -30,7 +29,6 @@
 }
 
 .container {
-    border: 1px solid white;
     width:640px;
     height:640px;
 

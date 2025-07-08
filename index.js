@@ -1,33 +1,49 @@
-//DOM Selection
+//DOM 
 const container = document.querySelector('.container');
+
 const createNewGridBtn = document.querySelector('.grid-create');
 const resetGridBtn = document.querySelector('.grid-reset');
 const gridColorModeBtn = document.querySelector('.grid-color-mode');
 
-let gridColorMode='single';
-let trackGridSize = 16;
+const gridDisplay = document.querySelector('.grid-size');
+const gridModeDisplay = document.querySelector('.grid-mode');
 
-let progressiveColor = {r:250,g:128, b:114};
-let singleColor = setColorRandom();
-
-//Event Listeners
+//EVENT LISTENERS
 createNewGridBtn.addEventListener('click', createNewGrid);
-
-resetGridBtn.addEventListener('click', resetGrid);
+resetGridBtn.addEventListener('click', resetGridColor);
+gridColorModeBtn.addEventListener('click', toggleColorMode);
 
 container.addEventListener('mouseover', changeColor);
 
-gridColorModeBtn.addEventListener('click', toggleColorMode);
+//FUNCTIONS
+let gridColorMode='single';
+let progressiveColor = {r:250,g:128, b:114};
+let singleColor = setColorRandom();
 
-//Functions
-function resetGrid() {
+function displayGridSize(size) {
+    console.log(gridDisplay.innerHTML, size);
+    gridDisplay.innerHTML = `grid size: ${size}x${size}`;
+}
+
+function displayGridMode(htmlContent) {
+    gridModeDisplay.innerHTML = `current mode: ${htmlContent}`
+}
+
+function resetGridShade() {
+    const cells = document.querySelectorAll('.grid-cell');
+    cells.forEach(cell => {
+        cell.dataset.shade = 0;
+    })
+}
+
+function resetGridColor() {
     const cells = document.querySelectorAll('.grid-cell');
     cells.forEach(cell => {
         cell.style.backgroundColor = 'white';
     })
 }
+
 function toggleColorMode(e) {
-// console.log(e.target);
     
     if (e.target.dataset.colorType == 'single') {
         e.target.innerHTML = 'random';
@@ -37,6 +53,7 @@ function toggleColorMode(e) {
         e.target.innerHTML = 'progressive darkening';
         e.target.dataset.colorType = 'progressive-darkening'
         resetGridShade();
+        progressiveColor = generateRandomColor();
 
     } else if (e.target.dataset.colorType == 'progressive-darkening') {
         e.target.innerHTML = 'single color';
@@ -45,14 +62,12 @@ function toggleColorMode(e) {
     }
     
     gridColorMode = e.target.dataset.colorType;
-    console.log(gridColorMode)
+    displayGridMode(e.target.innerHTML);
 }
 
 function changeColor(e) {
     if (e.target.classList.contains('grid-cell')) {
         const cell = e.target;
-        console.log(`Row : ${cell.dataset.row} Column : ${cell.dataset.column}`);
-        console.log(gridColorMode)
 
         if (gridColorMode == 'single') {
             cell.style.backgroundColor = singleColor;
@@ -61,16 +76,9 @@ function changeColor(e) {
             cell.style.backgroundColor = setColorRandom();
 
         } else if (gridColorMode == 'progressive-darkening') {
-            setColorProgressive(e.target); 
+            setColorProgressive(cell); 
         }
     }
-}
-
-function resetGridShade() {
-    const cells = document.querySelectorAll('.grid-cell');
-    cells.forEach(cell => {
-        cell.dataset.shade = 0;
-    })
 }
 
 function setColorRandom() {
@@ -95,19 +103,16 @@ function setColorProgressive(cell) {
         cell.dataset.shade = shade;
         const opacity = shade /10;
         cell.style.backgroundColor = `rgba(${progressiveColor.r},${progressiveColor.g},${progressiveColor.b}, ${1 - opacity})`;
-        console.log(shade, cell.style.backgroundColor)
     }
 
 }
+
 function createNewGrid() {
     const newGridSize = Number(prompt("Choose grid size between 1-100"));
     createGrid(newGridSize);
 }
 
-
 function createGrid(size = 16) {
-
-    trackGridSize = size;
 
     container.innerHTML = '';
 
@@ -124,6 +129,7 @@ function createGrid(size = 16) {
             container.appendChild(cell)
         }
     }
+    displayGridSize(size);
 }
 
 createGrid();
