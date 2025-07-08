@@ -13,15 +13,19 @@ let singleColor = setColorRandom();
 //Event Listeners
 createNewGridBtn.addEventListener('click', createNewGrid);
 
-resetGridBtn.addEventListener('click', ()=> {
-    createGrid(trackGridSize);
-});
+resetGridBtn.addEventListener('click', resetGrid);
 
 container.addEventListener('mouseover', changeColor);
 
 gridColorModeBtn.addEventListener('click', toggleColorMode);
 
 //Functions
+function resetGrid() {
+    const cells = document.querySelectorAll('.grid-cell');
+    cells.forEach(cell => {
+        cell.style.backgroundColor = 'white';
+    })
+}
 function toggleColorMode(e) {
 // console.log(e.target);
     
